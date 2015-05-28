@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
 
     private EditText newTaskTextField;
 
-    private ListView todoListView;
+    public ListView todoListView;
 
     private List<Map> favs;
     private ListAdapter favAdapter;
@@ -88,6 +88,10 @@ public class MainActivity extends ActionBarActivity {
 
         String task = String.valueOf(newTaskTextField.getText());
 
+        if(task.length() <= 0) {
+            return;
+        }
+
         Map<String, Boolean> itemToDo = new HashMap<String, Boolean>();
         itemToDo.put(task, false);
 
@@ -98,7 +102,7 @@ public class MainActivity extends ActionBarActivity {
 
         newTaskTextField.setText("");
 
-        Toast.makeText(this, "Added \"" + task + "\"", Toast.LENGTH_SHORT ).show();
+        Toast.makeText(this, task + " is added", Toast.LENGTH_SHORT ).show();
     }
 
     public void updateDataSource(int position, Map<String, Boolean> item) {

@@ -1,6 +1,7 @@
 package com.damodar.guiexamples;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,11 @@ public class ToDoRowAdapter extends ArrayAdapter<Map> {
 
         textView.setText(key);
 
+        if(value == true)
+            textView.setTextColor(Color.LTGRAY);
+        else
+            textView.setTextColor(Color.BLACK);
+
         CheckBox cbx = (CheckBox)theView.findViewById(R.id.checkMark);
         cbx.setTag(position);
         cbx.setChecked(value);
@@ -83,14 +89,32 @@ public class ToDoRowAdapter extends ArrayAdapter<Map> {
                 value=(Boolean)aTask.get(key);
             }
 
-            Toast.makeText(ctx, key + " changed", Toast.LENGTH_SHORT).show();
-
-            aTask.put(key, buttonView.isChecked());
+            value = buttonView.isChecked();
+            aTask.put(key, value);
             ctx.updateDataSource(position, aTask);
 
-//            tasks.remove(position);
-//            ArrayAdapter adp = (ArrayAdapter)ctx.getAdapter();
-//            adp.notifyDataSetChanged();
+
+            View vw = (View)buttonView.getParent();
+            TextView textView = (TextView) vw.findViewById(R.id.todoText);
+
+            if(value == true)
+                textView.setTextColor(Color.LTGRAY);
+            else
+                textView.setTextColor(Color.BLACK);
+
+            String doneStr = "";
+            if(value == true) {
+                doneStr = "completed";
+            }
+            else {
+                doneStr = "incomplete";
+            }
+
+
+            String toastText = key + " is " + doneStr;
+
+            Toast.makeText(ctx, toastText, Toast.LENGTH_SHORT).show();
+
         }
     };
 }
