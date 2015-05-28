@@ -73,6 +73,13 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onStop() {
+
+        convertToJSONAndStore();
+        super.onStop();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
 
         convertToJSONAndStore();
