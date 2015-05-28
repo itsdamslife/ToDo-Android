@@ -11,17 +11,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by damodar on 28/05/15.
  */
-public class ToDoRowAdapter extends ArrayAdapter<String> {
+public class ToDoRowAdapter extends ArrayAdapter<Map> {
 
     MainActivity ctx;
-    List<String> tasks;
+    List<Map> tasks;
 
-    public ToDoRowAdapter(Context context, List<String> values) {
+    public ToDoRowAdapter(Context context, List<Map> values) {
 
         super(context, R.layout.todo_item, values);
 
@@ -39,13 +41,23 @@ public class ToDoRowAdapter extends ArrayAdapter<String> {
             theView = theInflater.inflate(R.layout.todo_item, parent, false);
         }
 
-        String aTask = getItem(position);
+        Map aTask = getItem(position);
 
         TextView textView = (TextView)theView.findViewById(R.id.todoText);
-        textView.setText(aTask);
+        String key = "";
+        Boolean value = false;
+
+        Iterator myVeryOwnIterator = aTask.keySet().iterator();
+        while(myVeryOwnIterator.hasNext()) {
+            key=(String)myVeryOwnIterator.next();
+            value=(Boolean)aTask.get(key);
+        }
+
+        textView.setText(key);
 
         CheckBox cbx = (CheckBox)theView.findViewById(R.id.checkMark);
         cbx.setTag(position);
+        cbx.setChecked(value);
 
         cbx.setOnCheckedChangeListener(itemDone);
 
@@ -60,12 +72,25 @@ public class ToDoRowAdapter extends ArrayAdapter<String> {
         {
            int position = (int)buttonView.getTag();
 
-            Toast.makeText(ctx, "Tapped " + position, Toast.LENGTH_SHORT).show();
+            Map aTask = getItem(position);
 
-            tasks.remove(position);
+            String key = "";
+            Boolean value = false;
 
-            ArrayAdapter adp = (ArrayAdapter)ctx.getAdapter();
-            adp.notifyDataSetChanged();
+            Iterator myVeryOwnIterator = aTask.keySet().iterator();
+            while(myVeryOwnIterator.hasNext()) {
+                key=(String)myVeryOwnIterator.next();
+                value=(Boolean)aTask.get(key);
+            }
+
+            Toast.makeText(ctx, key + " changed", Toast.LENGTH_SHORT).show();
+
+            aTask.put(key, buttonView.isChecked());
+            ctx.updateDataSource(position, aTask);
+
+//            tasks.remove(position);
+//            ArrayAdapter adp = (ArrayAdapter)ctx.getAdapter();
+//            adp.notifyDataSetChanged();
         }
     };
 }

@@ -17,7 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -27,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
 
     private ListView todoListView;
 
-    private List<String> favs;
+    private List<Map> favs;
     private ListAdapter favAdapter;
 
     ListAdapter getAdapter() {
@@ -42,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
         newTaskTextField = (EditText)findViewById(R.id.editText);
         todoListView = (ListView)findViewById(R.id.theListView);
 
-        favs = new ArrayList<String>();
+        favs = new ArrayList<Map>();
 
         favAdapter = new ToDoRowAdapter(this, favs);
 
@@ -86,7 +88,10 @@ public class MainActivity extends ActionBarActivity {
 
         String task = String.valueOf(newTaskTextField.getText());
 
-        favs.add(0,task);
+        Map<String, Boolean> itemToDo = new HashMap<String, Boolean>();
+        itemToDo.put(task, false);
+
+        favs.add(0,itemToDo);
 
         ArrayAdapter adp = (ArrayAdapter)favAdapter;
         adp.notifyDataSetChanged();
@@ -94,6 +99,13 @@ public class MainActivity extends ActionBarActivity {
         newTaskTextField.setText("");
 
         Toast.makeText(this, "Added \"" + task + "\"", Toast.LENGTH_SHORT ).show();
+    }
+
+    public void updateDataSource(int position, Map<String, Boolean> item) {
+
+        favs.remove(position);
+        favs.add(position, item);
+
     }
 
 }
