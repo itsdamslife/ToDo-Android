@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">guiexamples</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="add_task_here_placeholder">Add task here!!</string>
+    <string name="add_task_btn_title">Add a task</string>
+    <string name="dummy_text">Add task subject here!!</string>
+</resources>
