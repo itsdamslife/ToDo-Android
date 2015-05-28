@@ -156,7 +156,7 @@ public class MainActivity extends ActionBarActivity {
         //Getting the JSON from pref
         String storedCollection = pref.getString("TODOLIST", null);
 
-        if(storedCollection.length() <= 0) {
+        if(storedCollection == null) {
             return;
         }
 
